@@ -161,16 +161,22 @@
         
         
         <script>
-            // some variables
+            /* This is like global variables */
+            // a 'slot' is one main direction of the rotation
             var currentSlot = 0;
-            // translate the slots
+            // these are the four slots, you could change direction here
             var slotMap = {0: 90, 1: 180, 2: -90, 3: 0};
+            
+            // the map is not only rotated, but also moves, to prevent the streets from floating
+            // behind the heading or out of the visible area
             var slotPos = {
                 0: [8.380514554, 49.074114036],
                 1: [8.4894074822, 49.01077179],
                 2: [8.440599474, 48.938433007],
                 3: [8.3346813388, 49.019383]
                 }
+            
+            // this is not used yet
             var blurFilter = ['any', 
                 ['==', ['get', 'highway'], 'motorway'],
                 ['==', ['get', 'highway'], 'primary'],
@@ -217,13 +223,16 @@
         </script>
         <script>
         /* main script */
-        mapboxgl.accessToken = 'pk.eyJ1IjoibW1hZWxpY2tlIiwiYSI6ImNrY2t3dnphNzFuYm0zNHFxdmk5ZGZvcjkifQ.viFW4Yh8dauNvmUO-UF_Hg';
+        // this is an accessToken, that only accepts the github url
+        mapboxgl.accessToken = 'pk.eyJ1IjoibW1hZWxpY2tlIiwiYSI6ImNrZHI4eGE4MTFic2UyeXRhN2QwZzJhYnYifQ.E60468ozoApmIvmbz0wK9w';
+        
+        // create the map object
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mmaelicke/ckdqaz3c2016619o0g5cnlb4f',
             center: [7.53346813388, 49.541303],
             zoom: 6,
-            interactive: true
+            interactive: false
         });
 
         // add onload listener
@@ -279,6 +288,7 @@
                 });
             }
         );
+        // whenever animations finish -> restart them
         map.on('moveend', () => rotate(map));
         </script>
     </body>
