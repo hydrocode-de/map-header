@@ -2,6 +2,8 @@
 
 Fancy Website banner rotating a street-network on dark background map
 
+<img src="https://firebasestorage.googleapis.com/v0/b/hydrocode-website.appspot.com/o/public%2Fhydrocode_brand.png?alt=media&token=3ec35465-9c1c-48a1-8d3f-2c93549a4ffb" width="400">
+
 ## Overview
 
 This repo is a quick example of how an actual mapbox map can be used as a website banner. THe code is in a single HTML file and the data is downloaded from overpass-turbo, as is.
