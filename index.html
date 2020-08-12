@@ -4,22 +4,229 @@
         <meta charset="utf-8">
         <title>Map Header</title>
 
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+        <!-- Compressed CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
+
+        <!-- Compressed JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
+
         <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
         <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
+        <script src="./export.geojson"></script>
         <style>
             #map {
-                
+                width: 100%;
+                height: 100%;
+            }
+            .map-wrapper {
+                width: 100%;
+                height: 700px;
+                max-height: 60%;
+                position: relative;
+            }
+
+            .title-overlay {
+                position: absolute;
+                width: 50%;
+                height: 100%;
+                color: whitesmoke;
+                left: 0px;
+                top: 0px;
+                font-size: x-large;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 2rem;
+                padding-left: 15%;
+                background-color: rgba(0,0,0,0.1);
+                box-shadow: 1px 0px 10px black;
+            }
+            @media (max-width: 768px) {
+                .title-overlay {
+                    width: 100%;
+                    padding-left: 0px;
+                    justify-content: flex-end;
+                }
+            }
+            .title {
+                margin-bottom: 1rem;
+                animation: flipInX;
+                animation-duration: 800ms;
+                animation-delay: 400ms;
+            }
+            .subtitle {
+                animation: flipInX;
+                animation-duration: 800ms;
+                animation-delay: 400ms;
+            }
+            .grid-x {
+                margin-top: 2rem;
+            }
+            .grid-x img {
+                width: 100%;
+            }
+            .brand-cell {
+                margin-top: 2rem;
+                margin-bottom: 4rem;
             }
         </style>
     </head>
     <body>
-        <div id='map' style='width: 400px; height: 300px;'></div>
+        <div data-sticky-container>
+            <div class="top-bar" data-sticky data-options="marginTop:0;" style="width: 100%;">
+                <div class="top-bar-left">
+                    <ul class="menu">
+                        <li class="menu-text">Map Headers</li>
+                        <li><a href="#">One</a></li>
+                        <li><a href="#">Two</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="map-wrapper">
+            <div id='map'></div>
+            <div class="title-overlay">
+                <h1 class="title">Really Nice Header</h1>
+                <h3 class="subtitle">The banner is actually a full featured map application. Why not do fancy stuff here?</h3>
+            </div>
+        </div>
+
+        <div class="grid-x ">
+            <div class="cell small-8 small-offset-2 brand-cell">
+                <a href="https://hydrocode.de" target="_blank">    
+                    <img src="https://firebasestorage.googleapis.com/v0/b/hydrocode-website.appspot.com/o/public%2Fhydrocode_brand.png?alt=media&token=3ec35465-9c1c-48a1-8d3f-2c93549a4ffb">
+                </a>
+            </div>
+                    
+
+            <div class="cell medium-3 medium-offset-2 small-12">
+                <div class="card">
+                    <div class="card-divider">
+                        What is it?
+                    </div>
+                    <div class="card-section">
+                        <h4>Used libraries</h4>
+                        This template uses <a href="https://get.foundation/index.html" target="_blank">Foundation CSS design</a>.
+                         The map is powered by <a href="https://mapbox.com" target="_blank">Mapbox GL</a>, displaying street network 
+                            build from <a href="https://openstreetmap.com" target="_blank">OpenStreetMap</a> data, distributed under 
+                            <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL 1.0 License</a>.
+                    </div>
+                </div>
+            </div>
+            <div class="cell medium-1 small-12"></div>
+            <div class="cell medium-3 small-12">
+                <div class="card">
+                    <div class="card-divider">
+                        Can I use it?
+                    </div>
+                    <div class="card-section">
+                        <h4>Hell, yeah!</h4>
+                        <p>If you reuse the template, please attribute <a href="https://hydrocode.de" target="_blank">hydrocode</a>. You can use the 
+                            image above. <a href="mailto:mirko@hydrocode.de">Get in touch</a> with us, if you need customization or support.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <script>
+            // some variables
+            var currentSlot = 0;
+            // translate the slots
+            var slotMap = {0: 90, 1: 180, 2: -90, 3: 0};
+            var slotPos = {
+                0: [8.380514554, 49.074114036],
+                1: [8.4894074822, 49.01077179],
+                2: [8.440599474, 48.938433007],
+                3: [8.3346813388, 49.019383]
+                }
+        </script>
+        <script>
+            // some functions
+            initAnimation = function(map) {
+                // pitch the map
+                map.flyTo({pitch: 60, duration: 10000});
+            }
+
+            rotate = function(map) {               
+                // animate
+                map.flyTo({
+                    bearing: slotMap[currentSlot],
+                    center: slotPos[currentSlot],
+                    essential: true, 
+                    duration: 30000,
+                    curve: 1,
+                    easing: t => t
+                });
+                currentSlot = currentSlot === 3 ? 0 : currentSlot + 1;
+            }
+        </script>
         <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoibW1hZWxpY2tlIiwiYSI6ImNrY2t3dnphNzFuYm0zNHFxdmk5ZGZvcjkifQ.viFW4Yh8dauNvmUO-UF_Hg';
         var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11'
+            container: 'map',
+            style: 'mapbox://styles/mmaelicke/ckdqaz3c2016619o0g5cnlb4f',
+            center: [8.3346813388, 49.019383],
+            zoom: 11.09873,
+            interactive: true
         });
+
+        // add onload listener
+        map.on('load', () => {
+                initAnimation(map);
+                map.addSource('streets', {
+                    type: 'geojson',
+                    data: data
+                });
+                map.addLayer({
+                    id: 'streets',
+                    type: 'line',
+                    source: 'streets',
+                    layout: {},
+                    paint: {
+                        'line-color': ['case', 
+                            ['any', 
+                                ['==', ['get', 'highway'], 'motorway'],
+                                ['==', ['get', 'highway'], 'primary'],
+                                ['==', ['get', 'highway'], 'trunk']
+                            ], '#FFFEF5',
+                            ['==', ['get', 'highway'], 'secondary'], '#FFFDE3', 
+                            ['==', ['get', 'highway'], 'tertiary'], '#FFFDDA', 
+                            ['any', 
+                                ['==', ['get', 'highway'], 'residental'],
+                                ['==', ['get', 'highway'], 'road'],
+                                ['==', ['get', 'highway'], 'unclassified']
+                            ], '#FFFCBF',
+                            ['==', ['get', 'highway'], 'pedestrian'], '#FFFBAD',
+                            '#FFFB9B'
+                        ],
+                        'line-width': ['case', 
+                            ['any', 
+                                ['==', ['get', 'highway'], 'motorway'],
+                                ['==', ['get', 'highway'], 'primary'],
+                                ['==', ['get', 'highway'], 'trunk']
+                            ], 1.5,
+                            ['==', ['get', 'highway'], 'secondary'], 1.0, 
+                            ['==', ['get', 'highway'], 'tertiary'], 0.8, 
+                            ['any', 
+                                ['==', ['get', 'highway'], 'residental'],
+                                ['==', ['get', 'highway'], 'road'],
+                                ['==', ['get', 'highway'], 'unclassified']
+                            ], 0.6,
+                            ['==', ['get', 'highway'], 'pedestrian'], 0.5,
+                            0.3
+                        ],
+                        'line-blur': 5
+                    }
+                });
+            }
+        );
+        map.on('moveend', () => rotate(map));
         </script>
     </body>
 </html>
