@@ -4,18 +4,34 @@
         <meta charset="utf-8">
         <title>Map Header</title>
 
+        <!-- JQuery is a dependency of foundation -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
-        <!-- Compressed CSS -->
+        <!-- FOUNDATION Compressed CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
-
-        <!-- Compressed JavaScript -->
+        <!-- FOUNDATION Compressed JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
 
+        <!-- Include Mapbox GL -->
         <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
         <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
+
+        <!-- animate.css -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
-        <script src="./export.geojson"></script>
+        
+        <!-- 
+            Data
+            ----
+            THIS IS WHERE YOU SHOULD ADAPT THE EXAMPLE
+            
+            Right now, a plain geojson export created on overpass-turbo.eu 
+            is included. This is ~ 30MB, which is way too much. 
+            The best strategy is to serve via ajax 
+            and get rid of all none-line geometries as they are not shown anyways.
+            Then create a union of all LineStrings with the same 'highway' propery.
+            That should dramatically decrease size and increase performance.
+        -->
+
         <style>
             #map {
                 width: 100%;
@@ -91,7 +107,8 @@
             <div id='map'></div>
             <div class="title-overlay">
                 <h1 class="title">Really Nice Header</h1>
-                <h3 class="subtitle">The banner is actually a full featured map application. Why not do fancy stuff here?</h3>
+                <h3 class="subtitle">The banner is actually a full featured map application.</h3>
+                <h3 class="subtitle">Wanna do fancy stuff here?</h3>
             </div>
         </div>
 
@@ -110,10 +127,12 @@
                     </div>
                     <div class="card-section">
                         <h4>Used libraries</h4>
+                        <p>
                         This template uses <a href="https://get.foundation/index.html" target="_blank">Foundation CSS design</a>.
                          The map is powered by <a href="https://mapbox.com" target="_blank">Mapbox GL</a>, displaying street network 
                             build from <a href="https://openstreetmap.com" target="_blank">OpenStreetMap</a> data, distributed under 
                             <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL 1.0 License</a>.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -125,8 +144,13 @@
                     </div>
                     <div class="card-section">
                         <h4>Hell, yeah!</h4>
-                        <p>If you reuse the template, please attribute <a href="https://hydrocode.de" target="_blank">hydrocode</a>. You can use the 
-                            image above. <a href="mailto:mirko@hydrocode.de">Get in touch</a> with us, if you need customization or support.</p>
+                        <p>
+                            If you reuse the template, please attribute <a href="https://hydrocode.de" target="_blank">hydrocode</a>. You can use the 
+                            image above. <a href="mailto:mirko@hydrocode.de">Get in touch</a> with us, if you need customization or support.
+                        </p>
+                        <p>
+                            Find the full code on <a href="https://github.com/hydrocode-de/map-header">Github</a>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -145,14 +169,28 @@
                 2: [8.440599474, 48.938433007],
                 3: [8.3346813388, 49.019383]
                 }
+            var blurFilter = ['any', 
+                ['==', ['get', 'highway'], 'motorway'],
+                ['==', ['get', 'highway'], 'primary'],
+                ['==', ['get', 'highway'], 'trunk'],
+                ['==', ['get', 'highway'], 'secondary'],
+                ['==', ['get', 'highway'], 'tertiary']
+            ];
         </script>
         <script>
-            // some functions
+            /* These functions control the animations*/
+            // this in only run once - change the fly in here
             initAnimation = function(map) {
                 // pitch the map
-                map.flyTo({pitch: 60, duration: 10000});
+                map.flyTo({
+                    pitch: 60, 
+                    duration: 15000,
+                    center: [8.3346813388, 49.019383],
+                    zoom: 11.09873
+                });
             }
 
+            // this function is always restarted once it has finished
             rotate = function(map) {               
                 // animate
                 map.flyTo({
@@ -165,23 +203,34 @@
                 });
                 currentSlot = currentSlot === 3 ? 0 : currentSlot + 1;
             }
+
+            // this is started once and has to call itself with Timeout though
+            blurEffect = function(map, state) {
+                var blur = state ? 0 : 3;
+                //map.setPaintProperty('streets', 'line-blur', ['case', blurFilter, blur, 0]);
+                map.setPaintProperty('streets', 'line-blur', blur);
+
+                setTimeout(() => blurEffect(map, !state), 30000);
+            }
         </script>
         <script>
+        /* main script */
         mapboxgl.accessToken = 'pk.eyJ1IjoibW1hZWxpY2tlIiwiYSI6ImNrY2t3dnphNzFuYm0zNHFxdmk5ZGZvcjkifQ.viFW4Yh8dauNvmUO-UF_Hg';
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mmaelicke/ckdqaz3c2016619o0g5cnlb4f',
-            center: [8.3346813388, 49.019383],
-            zoom: 11.09873,
+            center: [7.53346813388, 49.541303],
+            zoom: 6,
             interactive: true
         });
 
         // add onload listener
         map.on('load', () => {
                 initAnimation(map);
+                setTimeout(() => blurEffect(map, true), 10000);
                 map.addSource('streets', {
                     type: 'geojson',
-                    data: data
+                    data: 'https://hydrocode-de.github.io/map-header/export.geojson'
                 });
                 map.addLayer({
                     id: 'streets',
@@ -221,7 +270,9 @@
                             ['==', ['get', 'highway'], 'pedestrian'], 0.5,
                             0.3
                         ],
-                        'line-blur': 5
+                        //'line-blur': ['case', blurFilter, 3, 3],
+                        'line-blur': 3,
+                        'line-blur-transition': {duration: 10000},
                     }
                 });
             }
