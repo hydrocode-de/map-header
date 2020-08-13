@@ -48,7 +48,7 @@
 
             .title-overlay {
                 position: absolute;
-                width: 50%;
+                width: 40%;
                 height: 100%;
                 color: whitesmoke;
                 left: 0px;
@@ -58,9 +58,9 @@
                 flex-direction: column;
                 justify-content: center;
                 padding: 2rem;
-                padding-left: 15%;
-                background-color: rgba(0,0,0,0.1);
-                box-shadow: 1px 0px 10px black;
+                padding-left: 10%;
+                background-color: rgba(0,0,0,.1);
+                box-shadow: 1px 0px 10px #440154;
             }
             @media (max-width: 768px) {
                 .title-overlay {
@@ -90,6 +90,15 @@
                 margin-top: 2rem;
                 margin-bottom: 4rem;
             }
+            .top-bar, 
+            .top-bar ul,
+            .menu li:not(.has-form) a:not(.button) {
+                color: white;
+                background: #440154;
+            }
+            li.is-active a {
+                background: #433880 !important;
+            }
         </style>
     </head>
     <body>
@@ -98,8 +107,9 @@
                 <div class="top-bar-left">
                     <ul class="menu">
                         <li class="menu-text">Map Headers</li>
-                        <li class="is-active"><a href="index.html">Black Geojson</a></li>
-                        <li><a href="viridis.html">Viridis Colorscale</a></li>                    </ul>
+                        <li><a href="index.html">Black Geojson</a></li>
+                        <li class="is-active"><a href="viridis.html">Viridis Colorscale</a></li>                        
+                    </ul>
                 </div>
             </div>
         </div>
@@ -113,74 +123,64 @@
             </div>
         </div>
 
-<div class="grid-x grid-margin-x grid-margin-y">
-    <div class="cell small-8 small-offset-2 brand-cell">
-        <a href="https://hydrocode.de" target="_blank">
-            <img
-                src="https://firebasestorage.googleapis.com/v0/b/hydrocode-website.appspot.com/o/public%2Fhydrocode_brand.png?alt=media&token=3ec35465-9c1c-48a1-8d3f-2c93549a4ffb">
-        </a>
-    </div>
-
-    <div class="cell small-6 small-offset-3">
-        <div class="card">
-            <div class="card-divider">
-                Black GeoJson
+        <div class="grid-x grid-margin-x grid-margin-y">
+            <div class="cell small-8 small-offset-2 brand-cell">
+                <a href="https://hydrocode.de" target="_blank">    
+                    <img src="https://firebasestorage.googleapis.com/v0/b/hydrocode-website.appspot.com/o/public%2Fhydrocode_brand.png?alt=media&token=3ec35465-9c1c-48a1-8d3f-2c93549a4ffb">
+                </a>
             </div>
-            <div class="card-section">
-                <p>
-                    This was the first try to put a Mapbox map into a Website banner and implement some cool 
-                    animation. Basically the dark monochome map style of Mapbox is used, with most Components 
-                    disabled. It looks pretty neat, as Mapbox is already producing great styles.<br>
-                    The streets are implemented as a GEOJson data source. This demonstrates how easily any 
-                    kind of data can be shown on the map. You can easily add map markers, company headquaters, 
-                    point of interests and whatsoever.<br>
-                    The downside is speed. As I just import a raw openstreetmap data dump from Karlsruhe, the 
-                    application has to import 30MB of data, which may be too much for mobile devices. Check 
-                    out the Github to learn how to improve speed, or the Viridis Colorscale example, to serve 
-                    the streets with Mapbox.
-                </p>
+
+            <div class="cell small-6 small-offset-3">
+                <div class="card">
+                    <div class="card-divider">
+                        Viridis Colorscale
+                    </div>
+                    <div class="card-section">
+                        <p>
+                            The map above demonstrates two things - <br>
+                            First, it uses customized colors created in <a href="https://studio.mapbox.com" target="_blank">Mapbox Studio</a>,
+                            The Viridis colorscale is applied to the background map and the street features.
+                            Of course any other colors - exactly matching your brand colors - can be implemented into the Map.<br>
+                            Secondly, the streets are not imported as a GEOJson data source, but rather managed through Mapbox datasets.
+                            That makes the animations much more smooth as the data which to display is managed server side.
+                        </p>                        
+                    </div>
+                </div>
+            </div>        
+
+            <div class="cell medium-3 medium-offset-3 small-12">
+                <div class="card">
+                    <div class="card-divider">
+                        What is it?
+                    </div>
+                    <div class="card-section">
+                        <h4>Used libraries</h4>
+                        <p>
+                        This template uses <a href="https://get.foundation/index.html" target="_blank">Foundation CSS design</a>.
+                         The map is powered by <a href="https://mapbox.com" target="_blank">Mapbox GL</a>, displaying street network 
+                            build from <a href="https://openstreetmap.com" target="_blank">OpenStreetMap</a> data, distributed under 
+                            <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL 1.0 License</a>.
+                        </p>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="cell medium-3 small-12">
+                <div class="card">
+                    <div class="card-divider">
+                        Can I use it?
+                    </div>
+                    <div class="card-section">
+                        <h4>Hell, yeah!</h4>
+                        <p>
+                            If you reuse the template, please attribute <a href="https://hydrocode.de" target="_blank">hydrocode</a>. You can use the 
+                            image above. <a href="mailto:mirko@hydrocode.de">Get in touch</a> with us, if you need customization or support.<br>
+                            Find the full code on <a href="https://github.com/hydrocode-de/map-header">Github</a>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="cell medium-3 medium-offset-3 small-12">
-        <div class="card">
-            <div class="card-divider">
-                What is it?
-            </div>
-            <div class="card-section">
-                <h4>Used libraries</h4>
-                <p>
-                    This template uses <a href="https://get.foundation/index.html" target="_blank">Foundation CSS
-                        design</a>.
-                    The map is powered by <a href="https://mapbox.com" target="_blank">Mapbox GL</a>, displaying street
-                    network
-                    build from <a href="https://openstreetmap.com" target="_blank">OpenStreetMap</a> data, distributed
-                    under
-                    <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">ODbL 1.0 License</a>.
-                </p>
-
-            </div>
-        </div>
-    </div>
-    <div class="cell medium-3 small-12">
-        <div class="card">
-            <div class="card-divider">
-                Can I use it?
-            </div>
-            <div class="card-section">
-                <h4>Hell, yeah!</h4>
-                <p>
-                    If you reuse the template, please attribute <a href="https://hydrocode.de"
-                        target="_blank">hydrocode</a>. You can use the
-                    image above. <a href="mailto:mirko@hydrocode.de">Get in touch</a> with us, if you need customization
-                    or support.<br>
-                    Find the full code on <a href="https://github.com/hydrocode-de/map-header">Github</a>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
         
         
         
@@ -198,16 +198,8 @@
                 1: [8.4894074822, 49.01077179],
                 2: [8.440599474, 48.938433007],
                 3: [8.3346813388, 49.019383]
-                }
+                };
             
-            // this is not used yet
-            var blurFilter = ['any', 
-                ['==', ['get', 'highway'], 'motorway'],
-                ['==', ['get', 'highway'], 'primary'],
-                ['==', ['get', 'highway'], 'trunk'],
-                ['==', ['get', 'highway'], 'secondary'],
-                ['==', ['get', 'highway'], 'tertiary']
-            ];
         </script>
         <script>
             /* These functions control the animations*/
@@ -238,9 +230,11 @@
 
             // this is started once and has to call itself with Timeout though
             blurEffect = function(map, state) {
-                var blur = state ? 0 : 3;
+                var majorBlur = state ? 0 : 5;
+                var minorBlur = state ? 1 : 5;
                 //map.setPaintProperty('streets', 'line-blur', ['case', blurFilter, blur, 0]);
-                map.setPaintProperty('streets', 'line-blur', blur);
+                map.setPaintProperty('major-roads', 'line-blur', majorBlur);
+                map.setPaintProperty('minor-roads', 'line-blur', minorBlur);
 
                 setTimeout(() => blurEffect(map, !state), 30000);
             }
@@ -253,7 +247,7 @@
         // create the map object
         var map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mmaelicke/ckdqaz3c2016619o0g5cnlb4f',
+            style: 'mapbox://styles/mmaelicke/ckdskaqkl112z19ml8xndh8n0',
             center: [7.53346813388, 49.541303],
             zoom: 6,
             interactive: false
@@ -263,55 +257,12 @@
         map.on('load', () => {
                 initAnimation(map);
                 setTimeout(() => blurEffect(map, true), 10000);
-                map.addSource('streets', {
-                    type: 'geojson',
-                    data: 'https://hydrocode-de.github.io/map-header/export.geojson'
-                });
-                map.addLayer({
-                    id: 'streets',
-                    type: 'line',
-                    source: 'streets',
-                    layout: {},
-                    paint: {
-                        'line-color': ['case', 
-                            ['any', 
-                                ['==', ['get', 'highway'], 'motorway'],
-                                ['==', ['get', 'highway'], 'primary'],
-                                ['==', ['get', 'highway'], 'trunk']
-                            ], '#FFFEF5',
-                            ['==', ['get', 'highway'], 'secondary'], '#FFFDE3', 
-                            ['==', ['get', 'highway'], 'tertiary'], '#FFFDDA', 
-                            ['any', 
-                                ['==', ['get', 'highway'], 'residental'],
-                                ['==', ['get', 'highway'], 'road'],
-                                ['==', ['get', 'highway'], 'unclassified']
-                            ], '#FFFCBF',
-                            ['==', ['get', 'highway'], 'pedestrian'], '#FFFBAD',
-                            '#FFFB9B'
-                        ],
-                        'line-width': ['case', 
-                            ['any', 
-                                ['==', ['get', 'highway'], 'motorway'],
-                                ['==', ['get', 'highway'], 'primary'],
-                                ['==', ['get', 'highway'], 'trunk']
-                            ], 1.5,
-                            ['==', ['get', 'highway'], 'secondary'], 1.0, 
-                            ['==', ['get', 'highway'], 'tertiary'], 0.8, 
-                            ['any', 
-                                ['==', ['get', 'highway'], 'residental'],
-                                ['==', ['get', 'highway'], 'road'],
-                                ['==', ['get', 'highway'], 'unclassified']
-                            ], 0.6,
-                            ['==', ['get', 'highway'], 'pedestrian'], 0.5,
-                            0.3
-                        ],
-                        //'line-blur': ['case', blurFilter, 3, 3],
-                        'line-blur': 3,
-                        'line-blur-transition': {duration: 10000},
-                    }
-                });
-            }
-        );
+
+                // enable transitions
+                map.setPaintProperty('major-roads', 'line-blur-transition', {duration: 10000});
+                map.setPaintProperty('minor-roads', 'line-blur-transition', { duration: 5000 });
+        });
+
         // whenever animations finish -> restart them
         map.on('moveend', () => rotate(map));
         </script>
